@@ -1,0 +1,7 @@
+https://pokedex.org/
+
+https://github.com/zsoltk/compose-pokedex
+
+https://github.com/scitbiz/flutter_pokedex
+
+https://pokemondb.net/pokedex/all
