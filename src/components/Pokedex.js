@@ -7,6 +7,7 @@ import {
   CardMedia,
   CircularProgress,
   TextField,
+  Fade,
   makeStyles
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
@@ -20,6 +21,13 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: "50px",
     paddingRight: "50px"
   },
+  cardStyle: {
+    paddingTop: "10px",
+    cursor: "pointer",
+    "&:hover": {
+      boxShadow: "0 3px 15px rgba(100, 100, 100, 0.5)"
+    }
+  },
   cardMedia: {
     margin: "auto"
   },
@@ -30,7 +38,6 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "fade(theme.palette.common.white, 0.15)",
     paddingLeft: "20px",
     paddingRight: "20px",
     margin: "5px auto"
@@ -42,6 +49,22 @@ const useStyles = makeStyles(theme => ({
   searchInput: {
     width: "300px",
     margin: "5px"
+  },
+  imageContainer: {
+    position: "absolute",
+    left: "50%",
+    transform: "translate(-50%,0)",
+    backgroundColor: "rgba(36,122,197,0.05)",
+    borderRadius: "50%",
+    width: "120px",
+    height: "120px",
+    textAlign: "center",
+    boxShadow: "0 3px 3px rgba(100, 100, 100, 0.5)"
+  },
+  numberFormat: {
+    backgroundColor: "rgba(251,204,10, 0.4)",
+    padding: "5px",
+    borderRadius: "10px"
   }
 }));
 
@@ -77,19 +100,33 @@ const Pokedex = () => {
     const sprite = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
 
     return (
-      <Grid item xs={6} sm={2} key={pokemonId}>
-        <Card onClick={() => history.push(`/${pokemonId}`)}>
-          <CardMedia
-            className={classes.cardMedia}
-            image={sprite}
-            style={{ width: "100px", height: "100px", marginTop: "10px" }}
-          />
-          <CardContent className={classes.cardContent}>
-            <Typography>
-              {`${id}. ${toFirstCharacterUppercase(name)}`}
-            </Typography>
-          </CardContent>
-        </Card>
+      <Grid item xs={6} sm={4} md={2} key={pokemonId}>
+        <Fade in={true}>
+          <Card
+            className={classes.cardStyle}
+            onClick={() => history.push(`/${pokemonId}`)}
+          >
+            <div style={{ position: "relative" }}>
+              <div className={classes.imageContainer} />
+            </div>
+            <CardMedia
+              className={classes.cardMedia}
+              image={sprite}
+              style={{ width: "100px", height: "100px", marginTop: "10px" }}
+            />
+            <CardContent className={classes.cardContent}>
+              <Typography style={{ marginTop: "10px" }}>
+                <span
+                  className={classes.numberFormat}
+                >{`#${id.toString().padStart(3, "0")}`}</span>
+              </Typography>
+              <Typography
+                variant="h6"
+                style={{ marginTop: "10px" }}
+              >{`${toFirstCharacterUppercase(name)}`}</Typography>
+            </CardContent>
+          </Card>
+        </Fade>
       </Grid>
     );
   };
