@@ -8,6 +8,8 @@ import {
   Button,
   Card,
   CardActions,
+  Grid,
+  Paper,
   makeStyles
 } from "@material-ui/core";
 import { toFirstCharacterUppercase } from "../utilities/constants";
@@ -16,7 +18,7 @@ const useStyles = makeStyles({
   cardStyle: {
     width: "75%",
     margin: "2% auto",
-    padding: "2%"
+    padding: "1%"
   },
   numberFormat: {
     backgroundColor: "rgba(251,204,10, 0.4)",
@@ -27,6 +29,12 @@ const useStyles = makeStyles({
     padding: "3px 5px",
     margin: "0 2px",
     borderRadius: "10px"
+  },
+  imageContainer: {
+    backgroundColor: "rgba(36,122,197,0.05)",
+    borderRadius: "50%",
+    border: "1px solid #ddd",
+    marginLeft: "5px"
   }
 });
 
@@ -69,51 +77,10 @@ const Pokemon = props => {
   const generatePokemon = () => {
     const { name, id, species, height, weight, types, sprites } = pokemon;
     const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
-    const { front_default } = sprites;
+    const { front_default, back_default } = sprites;
 
     return (
-      <Card className={classes.cardStyle}>
-        <Typography variant="h2" style={{ textAlign: "center" }}>
-          {toFirstCharacterUppercase(name)}
-        </Typography>
-        <Typography variant="h5" style={{ textAlign: "center" }}>
-          <span className={classes.numberFormat}>
-            {`#${id.toString().padStart(3, "0")}`}
-          </span>{" "}
-        </Typography>
-        <Typography variant="h5" style={{ textAlign: "center" }}>
-          <img src={front_default} alt={name} />
-        </Typography>
-
-        <img
-          style={{ width: "300px", height: "300px" }}
-          src={fullImageUrl}
-          alt={name}
-        />
-        <Typography variant="h3">Pokemon Info</Typography>
-        <Typography>
-          {"Species: "}
-          <Link href={species.url}>{species.name} </Link>
-        </Typography>
-        <Typography>Height: {height} </Typography>
-        <Typography>Weight: {weight} </Typography>
-        <Typography variant="h6" display="inline">
-          Types:
-        </Typography>
-        {types.map(typeInfo => {
-          const { type } = typeInfo;
-          const { name } = type;
-          return (
-            <Typography variant="subtitle1" key={name} display="inline">
-              <span
-                className={classes.typesSpanStyle}
-                style={{ background: `${colors[name]}` }}
-              >
-                {`${name}`}
-              </span>
-            </Typography>
-          );
-        })}
+      <Card className={classes.cardStyle} elevation={4}>
         <CardActions>
           <Button
             size="small"
@@ -124,6 +91,74 @@ const Pokemon = props => {
             {"<< pokedex"}
           </Button>
         </CardActions>
+
+        <Typography variant="h2" style={{ textAlign: "center" }}>
+          {toFirstCharacterUppercase(name)}
+        </Typography>
+
+        <Typography variant="h5" style={{ textAlign: "center" }}>
+          <span className={classes.numberFormat}>
+            {`#${id.toString().padStart(3, "0")}`}
+          </span>
+          <div>
+            <img
+              src={front_default}
+              alt={name + " front"}
+              className="img-front"
+              style={{ position: "relative" }}
+            />
+            <img
+              src={back_default}
+              alt={name + " back"}
+              className="img-back"
+              style={{
+                position: "absolute",
+                left: "50%",
+                transform: "translate(-50%,0)"
+              }}
+            />
+          </div>
+        </Typography>
+
+        <Grid container justify="space-around" style={{ marginTop: "2%" }}>
+          <Grid item xs={12} sm={6}>
+            <Paper
+              elevation={0}
+              style={{ display: "flex", flexDirection: "column" }}
+            >
+              <img
+                style={{ width: "50%", height: "50%", margin: "auto" }}
+                src={fullImageUrl}
+                alt={name}
+              />
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Paper elevation={0}>
+              <Typography>
+                {"Species: "}
+                <Link href={species.url}>{species.name} </Link>
+              </Typography>
+              <Typography>Height: {height} </Typography>
+              <Typography>Weight: {weight} </Typography>
+              <Typography display="inline">Types:</Typography>
+              {types.map(typeInfo => {
+                const { type } = typeInfo;
+                const { name } = type;
+                return (
+                  <Typography variant="subtitle1" key={name} display="inline">
+                    <span
+                      className={classes.typesSpanStyle}
+                      style={{ background: `${colors[name]}` }}
+                    >
+                      {`${name}`}
+                    </span>
+                  </Typography>
+                );
+              })}
+            </Paper>
+          </Grid>
+        </Grid>
       </Card>
     );
   };
