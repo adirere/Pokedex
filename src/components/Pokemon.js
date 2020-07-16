@@ -76,9 +76,25 @@ const Pokemon = props => {
   }, [pokemonId]);
 
   const generatePokemon = () => {
-    const { name, id, species, height, weight, types, sprites } = pokemon;
+    const {
+      name,
+      id,
+      species,
+      height,
+      weight,
+      types,
+      stats,
+      sprites
+    } = pokemon;
     const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
     const { front_default, back_default } = sprites;
+
+    const displayStats = stats => {
+      const pokemonStats = {};
+      stats.forEach(s => (pokemonStats[s.stat.name] = s["base_stat"]));
+
+      return pokemonStats;
+    };
 
     return (
       <Card className={classes.cardStyle} elevation={4}>
@@ -158,6 +174,15 @@ const Pokemon = props => {
                   </Typography>
                 );
               })}
+              <div>
+                {Object.keys(displayStats(stats)).map((keyName, i) => (
+                  <li key={i}>
+                    <span>
+                      {keyName} : {displayStats(stats)[keyName]}
+                    </span>
+                  </li>
+                ))}
+              </div>
             </Paper>
           </Grid>
         </Grid>
