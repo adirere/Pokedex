@@ -13,6 +13,7 @@ import {
   makeStyles
 } from "@material-ui/core";
 import { toFirstCharacterUppercase } from "../utilities/constants";
+import { ReactComponent as Pokeball } from "../svg/pokeball.svg";
 
 const useStyles = makeStyles({
   cardStyle: {
@@ -93,6 +94,7 @@ const Pokemon = props => {
         </CardActions>
 
         <Typography variant="h2" style={{ textAlign: "center" }}>
+          <Pokeball style={{ width: "45px", marginRight: "5px" }} />
           {toFirstCharacterUppercase(name)}
         </Typography>
 

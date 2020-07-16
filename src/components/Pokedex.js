@@ -71,24 +71,32 @@ const useStyles = makeStyles(theme => ({
 const Pokedex = () => {
   const classes = useStyles();
   let history = useHistory();
-  const [pokemonData, setPokemonData] = useState({});
+  const [pokemonData, setPokemonData] = useState(
+    JSON.parse(window.localStorage.getItem("pokemonData")) || {}
+  );
   const [filter, setFilter] = useState("");
 
   useEffect(() => {
-    axios
-      .get(`https://pokeapi.co/api/v2/pokemon?limit=807`)
-      .then(function(response) {
-        const { data } = response;
-        const { results } = data;
-        const newPokemonData = {};
-        results.forEach((pokemon, index) => {
-          newPokemonData[index + 1] = {
-            id: index + 1,
-            name: pokemon.name
-          };
+    if (Object.keys(pokemonData).length === 0) {
+      axios
+        .get(`https://pokeapi.co/api/v2/pokemon?limit=807`)
+        .then(function(response) {
+          const { data } = response;
+          const { results } = data;
+          const newPokemonData = {};
+          results.forEach((pokemon, index) => {
+            newPokemonData[index + 1] = {
+              id: index + 1,
+              name: pokemon.name
+            };
+          });
+          window.localStorage.setItem(
+            "pokemonData",
+            JSON.stringify(newPokemonData)
+          );
+          setPokemonData(newPokemonData);
         });
-        setPokemonData(newPokemonData);
-      });
+    }
   }, []);
 
   const handleSearchChange = e => {
