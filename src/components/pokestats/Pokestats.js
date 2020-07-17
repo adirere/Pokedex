@@ -32,7 +32,7 @@ const Pokestats = ({ stats, maxStat }) => {
   }, [maxStat, stats]);
 
   return (
-    <div>
+    <div style={{ fontFamily: "Black Ops One" }}>
       <svg
         ref={svgRef}
         width="200"

@@ -12,6 +12,7 @@ import {
   Paper,
   makeStyles
 } from "@material-ui/core";
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { toFirstCharacterUppercase } from "../utilities/constants";
 import { ReactComponent as Pokeball } from "../svg/pokeball.svg";
 import Pokestats from "./pokestats/Pokestats";
@@ -55,7 +56,10 @@ const colors = {
   flying: "#F5F5F5",
   fighting: "#E6E0D4",
   normal: "#F5F5F5",
-  ghost: "#FAF7E4"
+  ghost: "#FAF7E4",
+  steel: "#B8B8D0",
+  dark: "#705848",
+  ice: "#98D8D8"
 };
 
 const Pokemon = props => {
@@ -111,7 +115,8 @@ const Pokemon = props => {
             variant="contained"
             onClick={() => history.push("/")}
           >
-            {"<< pokedex"}
+            <ArrowBackIosIcon />
+            {" pokedex"}
           </Button>
         </CardActions>
 
@@ -163,8 +168,20 @@ const Pokemon = props => {
                 {"Species: "}
                 <Link href={species.url}>{species.name} </Link>
               </Typography>
-              <Typography>Height: {height} </Typography>
-              <Typography>Weight: {weight} </Typography>
+              <Typography>
+                Height:{" "}
+                <span style={{ fontFamily: "Black Ops One" }}>
+                  {height / 10}
+                </span>{" "}
+                m
+              </Typography>
+              <Typography>
+                Weight:{" "}
+                <span style={{ fontFamily: "Black Ops One" }}>
+                  {weight / 10}
+                </span>{" "}
+                kg
+              </Typography>
               <Typography display="inline">Types:</Typography>
               {types.map(typeInfo => {
                 const { type } = typeInfo;
@@ -181,18 +198,15 @@ const Pokemon = props => {
                 );
               })}
               <div>
-                <Typography variant="subtitle1" style={{ marginLeft: "10px" }}>
-                  Stats
-                </Typography>
                 {Object.keys(displayStats(stats)).map((keyName, i) => (
                   <li key={i} style={{ listStyle: "none" }}>
-                    <span>
+                    <Typography>
                       {keyName}
                       <Pokestats
                         stats={displayStats(stats)[keyName]}
                         maxStat={maxStat}
                       />
-                    </span>
+                    </Typography>
                   </li>
                 ))}
               </div>

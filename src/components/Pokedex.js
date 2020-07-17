@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
+  AppBar,
+  Toolbar,
   Typography,
   Grid,
   Card,
@@ -40,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     alignItems: "center",
     paddingLeft: "20px",
     paddingRight: "20px",
-    margin: "5px auto"
+    margin: "20px auto"
   },
   searchIcon: {
     alignSelf: "flex-end",
@@ -141,12 +143,16 @@ const Pokedex = () => {
 
   return (
     <>
-      <Typography
-        variant="h3"
-        style={{ textAlign: "center", margin: "20px auto" }}
-      >
-        Pokedex
-      </Typography>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography
+            variant="h3"
+            style={{ textAlign: "center", margin: "20px auto" }}
+          >
+            Pokedex
+          </Typography>
+        </Toolbar>
+      </AppBar>
       <div className={classes.searchContainer}>
         <SearchIcon className={classes.searchIcon} />
         <TextField
