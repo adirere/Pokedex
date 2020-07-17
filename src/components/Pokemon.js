@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { toFirstCharacterUppercase } from "../utilities/constants";
 import { ReactComponent as Pokeball } from "../svg/pokeball.svg";
+import Pokestats from "./pokestats/Pokestats";
 
 const useStyles = makeStyles({
   cardStyle: {
@@ -88,10 +89,15 @@ const Pokemon = props => {
     } = pokemon;
     const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
     const { front_default, back_default } = sprites;
+    let maxStat = 0;
 
     const displayStats = stats => {
       const pokemonStats = {};
-      stats.forEach(s => (pokemonStats[s.stat.name] = s["base_stat"]));
+
+      stats.forEach(s => {
+        pokemonStats[s.stat.name] = s["base_stat"];
+        if (maxStat < s["base_stat"]) maxStat = s["base_stat"];
+      });
 
       return pokemonStats;
     };
@@ -175,10 +181,17 @@ const Pokemon = props => {
                 );
               })}
               <div>
+                <Typography variant="subtitle1" style={{ marginLeft: "10px" }}>
+                  Stats
+                </Typography>
                 {Object.keys(displayStats(stats)).map((keyName, i) => (
-                  <li key={i}>
+                  <li key={i} style={{ listStyle: "none" }}>
                     <span>
-                      {keyName} : {displayStats(stats)[keyName]}
+                      {keyName}
+                      <Pokestats
+                        stats={displayStats(stats)[keyName]}
+                        maxStat={maxStat}
+                      />
                     </span>
                   </li>
                 ))}
