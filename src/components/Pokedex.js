@@ -8,8 +8,8 @@ import {
   CardContent,
   CardMedia,
   CircularProgress,
+  Grow,
   TextField,
-  Fade,
   makeStyles
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
@@ -111,7 +111,11 @@ const Pokedex = () => {
 
     return (
       <Grid item xs={6} sm={4} md={2} key={pokemonId}>
-        <Fade in={true}>
+        <Grow
+          in={true}
+          style={{ transformOrigin: "0 0 0" }}
+          {...(true ? { timeout: 1000 } : {})}
+        >
           <Card
             className={classes.cardStyle}
             onClick={() => history.push(`/${pokemonId}`)}
@@ -136,7 +140,7 @@ const Pokedex = () => {
               >{`${toFirstCharacterUppercase(name)}`}</Typography>
             </CardContent>
           </Card>
-        </Fade>
+        </Grow>
       </Grid>
     );
   };

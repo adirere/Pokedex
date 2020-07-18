@@ -3,7 +3,6 @@ import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import {
   Typography,
-  Link,
   CircularProgress,
   Button,
   Card,
@@ -53,7 +52,7 @@ const colors = {
   bug: "#f8d5a3",
   dragon: "#97b3e6",
   psychic: "#eaeda1",
-  flying: "#F5F5F5",
+  flying: "#50BFDB",
   fighting: "#E6E0D4",
   normal: "#F5F5F5",
   ghost: "#FAF7E4",
@@ -67,6 +66,7 @@ const Pokemon = props => {
   let { pokemonId } = useParams();
   let history = useHistory();
   const [pokemon, setPokemon] = useState(undefined);
+  const [characteristics, setCharacteristics] = useState("");
 
   useEffect(() => {
     axios
@@ -78,19 +78,22 @@ const Pokemon = props => {
       .catch(function(error) {
         setPokemon(false);
       });
-  }, [pokemonId]);
+
+    axios
+      .get(`https://pokeapi.co/api/v2/characteristic/${pokemonId}/`)
+      .then(function(response) {
+        const {
+          data: { descriptions }
+        } = response;
+        setCharacteristics(descriptions.filter(d => d.language.name === "en"));
+      })
+      .catch(function(error) {
+        setCharacteristics("");
+      });
+  }, [pokemonId, characteristics]);
 
   const generatePokemon = () => {
-    const {
-      name,
-      id,
-      species,
-      height,
-      weight,
-      types,
-      stats,
-      sprites
-    } = pokemon;
+    const { name, id, height, weight, types, stats, sprites } = pokemon;
     const fullImageUrl = `https://pokeres.bastionbot.org/images/pokemon/${id}.png`;
     const { front_default, back_default } = sprites;
     let maxStat = 0;
@@ -165,8 +168,10 @@ const Pokemon = props => {
           <Grid item xs={12} sm={6}>
             <Paper elevation={0}>
               <Typography>
-                {"Species: "}
-                <Link href={species.url}>{species.name} </Link>
+                {"Characteristics: "}
+                {characteristics !== ""
+                  ? characteristics[0].description.toLowerCase()
+                  : "n/a"}
               </Typography>
               <Typography>
                 Height:{" "}
@@ -219,7 +224,9 @@ const Pokemon = props => {
 
   return (
     <>
-      {pokemon === undefined && <CircularProgress />}
+      {pokemon === undefined && (
+        <CircularProgress style={{ margin: "20px 20px" }} />
+      )}
       {pokemon !== undefined && pokemon && generatePokemon(pokemon)}
       {pokemon === false && (
         <>
