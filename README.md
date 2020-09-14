@@ -1,5 +1,7 @@
 # Pokedex
 
+[Pokedex App Print Screen](./src)
+
 A library displaying the main Pokemons and basic stats for each of them.
 
 You can live-view the app here: https://zmxcm.csb.app/
