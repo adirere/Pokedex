@@ -1,6 +1,6 @@
 # Pokedex
 
-[Pokedex App Print Screen](./src)
+[Pokedex App Print Screen](https://uploads.codesandbox.io/uploads/user/3da8032e-cd8c-4966-8d2b-a74f580418b9/xPRy-Pokedex.png)
 
 A library displaying the main Pokemons and basic stats for each of them.
 
